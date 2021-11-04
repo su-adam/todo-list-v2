@@ -1,5 +1,12 @@
 from application import app, db
 from application.models import Tasks
+from flask import render_template
+
+@app.route('/')
+@app.route('/home')
+def home():
+    all_tasks = Tasks.query.all()
+    return render_template('index.html', title="Home", all_tasks=all_tasks)
 
 @app.route('/create/task')
 def create_task():
@@ -11,9 +18,7 @@ def create_task():
 @app.route('/read/allTasks')
 def read_tasks():
     all_tasks = Tasks.query.all()
-    
     tasks_dict = {"tasks": []}
-    
     for task in all_tasks:
         tasks_dict["tasks"].append(
             {
@@ -21,7 +26,6 @@ def read_tasks():
                 "completed": task.completed
             }
         )
-    
     return tasks_dict
 
 @app.route('/update/task/<int:id>/<new_description>')

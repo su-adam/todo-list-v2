@@ -10,4 +10,8 @@ app.config['SECRET_KEY'] = str(uuid.uuid4())
 
 db = SQLAlchemy(app)
 
+if getenv("CREATE_SCHEMA").lower() == "true":
+    db.drop_all()
+    db.create_all()
+
 from application import routes

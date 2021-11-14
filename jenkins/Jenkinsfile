@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script{
                     if (env.RUN_APP == "true") {
-                        sh "bash jenkins/run_app.py"
+                        sh "bash jenkins/run_app.sh"
                     }
                 }
             }

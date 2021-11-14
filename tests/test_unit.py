@@ -61,7 +61,7 @@ class TestCreate(TestBase):
             data={"description": "Testing create functionality"},
             follow_redirects=True
         )
-        self.assertIn(b"Testing create functionality", response.data)
+        self.assertIn(b"Test create functionality", response.data)
     
 class TestUpdate(TestBase):
 
@@ -72,6 +72,11 @@ class TestUpdate(TestBase):
             follow_redirects=True
         )
         self.assertIn(b"Testing update functionality", response.data)
+    
+    def test_complete_task(self):
+        response = self.client.get(url_for('complete_task', id=1), follow_redirects=True)
+        self.assertEqual(Task.query.get(1).completed, True)
+        
 
 class TestDelete(TestBase):
 

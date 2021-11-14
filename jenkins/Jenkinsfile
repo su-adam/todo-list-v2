@@ -3,9 +3,7 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                sh "mkdir newdir"
-                sh "cd newdir"
-                sh "touch newfile"
+                sh "bash setup.sh"
             }
         }
         // stage('Test') {

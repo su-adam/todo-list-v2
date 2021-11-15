@@ -4,10 +4,6 @@ from application.forms import TaskForm
 from flask import render_template, request, redirect, url_for
 from os import getenv
 
-if getenv("CREATE_SCHEMA") == "true":
-    db.drop_all()
-    db.create_all()
-
 @app.route('/')
 @app.route('/home')
 def home():

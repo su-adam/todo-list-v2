@@ -1,4 +1,5 @@
 from application import app
+from os import getenv
 
 if __name__ == "__main__":
     if getenv("CREATE_SCHEMA").lower() == "true":

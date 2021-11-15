@@ -1,4 +1,4 @@
-from application import app
+from application import app, db
 from os import getenv
 
 if __name__ == "__main__":

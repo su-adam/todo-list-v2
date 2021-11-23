@@ -1,7 +1,7 @@
 from application import app, db
 from application.models import Tasks
 from application.forms import TaskForm
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify
 from os import getenv
 
 @app.route('/')
@@ -33,7 +33,7 @@ def read_tasks():
                 "completed": task.completed
             }
         )
-    return tasks_dict
+    return jsonify(tasks_dict)
 
 @app.route('/update/task/<int:id>', methods=['GET','POST'])
 def update_task(id):

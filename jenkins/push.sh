@@ -2,4 +2,4 @@
 
 echo "push stage"
 
-dokcer-compose push
+docker-compose push

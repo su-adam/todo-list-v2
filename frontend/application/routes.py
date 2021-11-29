@@ -23,18 +23,7 @@ def create_task():
 
     return render_template("create_task.html", title="Add a new Task", form=form)
 
-# @app.route('/read/allTasks')
-# def read_tasks():
-#     all_tasks = Tasks.query.all()
-#     tasks_dict = {"tasks": []}
-#     for task in all_tasks:
-#         tasks_dict["tasks"].append(
-#             {
-#                 "description": task.description,
-#                 "completed": task.completed
-#             }
-#         )
-#     return jsonify(tasks_dict)
+
 
 # @app.route('/update/task/<int:id>', methods=['GET','POST'])
 # def update_task(id):

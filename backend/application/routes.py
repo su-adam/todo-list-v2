@@ -28,6 +28,16 @@ def read_tasks():
         )
     return jsonify(tasks_dict)
 
+@app.route('/read/task/<int:id>', methods=['GET'])
+def read_tasks(id):
+    tasks = Tasks.query.get(id)
+    tasks_dict = {
+                "id" : task.id,
+                "description": task.description,
+                "completed": task.completed
+            }
+    return jsonify(tasks_dict)
+
 @app.route('/update/task/<int:id>', methods=['PUT'])
 def update_task(id):
     package = request.json

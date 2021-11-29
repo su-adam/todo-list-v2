@@ -10,8 +10,8 @@ services:
     - target: 5000
       published: 80
   backend:
-     deploy:
-       replicas: 3
+    deploy:
+      replicas: 3
     build: ./backend
     image: ${DOCKER_HUB_CREDS_USR}/todo-app-backend:latest
     container_name: todo-app-backend

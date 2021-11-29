@@ -8,7 +8,7 @@ backend_host = "todo-app_backend:5000"
 @app.route('/')
 @app.route('/home')
 def home():
-    all_tasks = requests.get("http://{backend_host}:5000/read/allTasks").json()
+    all_tasks = requests.get(f"http://{backend_host}:5000/read/allTasks").json()
     app.logger.info(f"Tasks: {all_tasks}")
     return render_template('index.html', title="Home", all_tasks=all_tasks["tasks"])
 
@@ -18,10 +18,10 @@ def create_task():
 
     if request.method == "POST":
         response = requests.post(
-            "http://{backend_host}:5000/create/task",
+            f"http://{backend_host}:5000/create/task",
             json = {"description" : form.description.data}
         )
-        app.logger.info(f"Response: {response.data}")
+        app.logger.info(f"Response: {response.text}")
         return redirect(url_for('home'))
 
     return render_template("create_task.html", title="Add a new Task", form=form)
@@ -35,7 +35,7 @@ def update_task(id):
     app.logger.info(f"Task : {task}")
 
     if request.method == "POST":
-        response = requests.post(
+        response = requests.put(
             f"http://{backend_host}:5000/update/task/{id}",
             json = {"description" : form.description.data}
         )
@@ -43,23 +43,20 @@ def update_task(id):
 
     return render_template('update_task.html', task=task, form=form)
 
-# @app.route('/delete/task/<int:id>')
-# def delete_task(id):
-#     task = Tasks.query.get(id)
-#     db.session.delete(task)
-#     db.session.commit()
-#     return redirect(url_for('home'))
+@app.route('/delete/task/<int:id>')
+def delete_task(id):
+    response = requests.delete(f"http://{backend_host}:5000/delete/task/{id}")
+    app.logger.info(f"Response: {response.text}")
+    return redirect(url_for('home'))
 
-# @app.route('/complete/task/<int:id>')
-# def complete_task(id):
-#     task = Tasks.query.get(id)
-#     task.completed = True
-#     db.session.commit()
-#     return redirect(url_for('home'))
+@app.route('/complete/task/<int:id>')
+def complete_task(id):
+    response = requests.put(f"http://{backend_host}:5000/complete /task/{id}")
+    app.logger.info(f"Response: {response.text}")
+    return redirect(url_for('home'))
 
-# @app.route('/incomplete/task/<int:id>')
-# def incomplete_task(id):
-#     task = Tasks.query.get(id)
-#     task.completed = False
-#     db.session.commit()
-#     return redirect(url_for('home'))
+@app.route('/incomplete/task/<int:id>')
+def incomplete_task(id):
+    response = requests.put(f"http://{backend_host}:5000/incomplete/task/{id}")
+    app.logger.info(f"Response: {response.text}")
+    return redirect(url_for('home'))

@@ -8,7 +8,7 @@ backend_host = "todo-app_backend:5000"
 @app.route('/')
 @app.route('/home')
 def home():
-    all_tasks = requests.get(f"http://{backend_host}:5000/read/allTasks").json()
+    all_tasks = requests.get(f"http://{backend_host}/read/allTasks").json()
     app.logger.info(f"Tasks: {all_tasks}")
     return render_template('index.html', title="Home", all_tasks=all_tasks["tasks"])
 
@@ -18,7 +18,7 @@ def create_task():
 
     if request.method == "POST":
         response = requests.post(
-            f"http://{backend_host}:5000/create/task",
+            f"http://{backend_host}/create/task",
             json = {"description" : form.description.data}
         )
         app.logger.info(f"Response: {response.text}")
@@ -31,12 +31,12 @@ def create_task():
 @app.route('/update/task/<int:id>', methods=['GET','POST'])
 def update_task(id):
     form = TaskForm()
-    task = requests.get(f"http://{backend_host}:5000/read/task{id}").json()
+    task = requests.get(f"http://{backend_host}/read/task{id}").json()
     app.logger.info(f"Task : {task}")
 
     if request.method == "POST":
         response = requests.put(
-            f"http://{backend_host}:5000/update/task/{id}",
+            f"http://{backend_host}/update/task/{id}",
             json = {"description" : form.description.data}
         )
         return redirect(url_for('home'))
@@ -45,18 +45,18 @@ def update_task(id):
 
 @app.route('/delete/task/<int:id>')
 def delete_task(id):
-    response = requests.delete(f"http://{backend_host}:5000/delete/task/{id}")
+    response = requests.delete(f"http://{backend_host}/delete/task/{id}")
     app.logger.info(f"Response: {response.text}")
     return redirect(url_for('home'))
 
 @app.route('/complete/task/<int:id>')
 def complete_task(id):
-    response = requests.put(f"http://{backend_host}:5000/complete /task/{id}")
+    response = requests.put(f"http://{backend_host}/complete /task/{id}")
     app.logger.info(f"Response: {response.text}")
     return redirect(url_for('home'))
 
 @app.route('/incomplete/task/<int:id>')
 def incomplete_task(id):
-    response = requests.put(f"http://{backend_host}:5000/incomplete/task/{id}")
+    response = requests.put(f"http://{backend_host}/incomplete/task/{id}")
     app.logger.info(f"Response: {response.text}")
     return redirect(url_for('home'))

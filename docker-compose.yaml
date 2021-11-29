@@ -2,7 +2,7 @@ version: "3.8"
 services:
   frontend:
     deploy:
-      replicas : 3
+      replicas: 3
     build: ./frontend
     image: ${DOCKER_HUB_CREDS_USR}/todo-app-frontend:latest
     container_name: todo-app-frontend
@@ -11,7 +11,7 @@ services:
       published: 80
   backend:
      deploy:
-       replicas : 3
+       replicas: 3
     build: ./backend
     image: ${DOCKER_HUB_CREDS_USR}/todo-app-backend:latest
     container_name: todo-app-backend

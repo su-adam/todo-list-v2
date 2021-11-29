@@ -17,25 +17,31 @@ def create_task():
     form = TaskForm()
 
     if request.method == "POST":
-        response = requests.post("http://{backend_host}:5000/create/task",
-        json = {"description" : form.description.data})
+        response = requests.post(
+            "http://{backend_host}:5000/create/task",
+            json = {"description" : form.description.data}
+        )
+        app.logger.info(f"Response: {response.data}")
         return redirect(url_for('home'))
 
     return render_template("create_task.html", title="Add a new Task", form=form)
 
 
 
-# @app.route('/update/task/<int:id>', methods=['GET','POST'])
-# def update_task(id):
-#     form = TaskForm()
-#     task = Tasks.query.get(id)
+@app.route('/update/task/<int:id>', methods=['GET','POST'])
+def update_task(id):
+    form = TaskForm()
+    task = requests.get(f"http://{backend_host}:5000/read/task{id}").json()
+    app.logger.info(f"Task : {task}")
 
-#     if request.method == "POST":
-#         task.description = form.description.data
-#         db.session.commit()
-#         return redirect(url_for('home'))
+    if request.method == "POST":
+        response = requests.post(
+            f"http://{backend_host}:5000/update/task/{id}",
+            json = {"description" : form.description.data}
+        )
+        return redirect(url_for('home'))
 
-#     return render_template('update_task.html', task=task, form=form)
+    return render_template('update_task.html', task=task, form=form)
 
 # @app.route('/delete/task/<int:id>')
 # def delete_task(id):
